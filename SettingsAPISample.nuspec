@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SettingsAPISample</id>
+    <title>A sample site extension that implements a WebAPI</title>
+    <version>0.1.0</version>
+    <authors>David Ebbo</authors>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <projectUrl>https://github.com/davidebbo-test/WebAPIFoo</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A sample site extension that implements a WebAPI</description>
+    <tags>WebAPI sample</tags>
+  </metadata>
+  <files>
+    <file src="Artifacts\SettingsAPISample\**\*.*" target="content" />
+    <file src="SettingsAPISample\applicationHost.xdt" target="content" />
+  </files>
+</package>

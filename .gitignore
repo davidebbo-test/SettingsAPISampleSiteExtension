@@ -1,0 +1,10 @@
+bin
+obj
+*.user
+*.suo
+*.sln.ide
+App_Data
+*.results.xml
+/packages
+/artifacts
+*.nupkg

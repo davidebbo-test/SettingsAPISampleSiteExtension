@@ -46,14 +46,12 @@ namespace SettingsAPISample.Controllers
             SettingEntry existingEntry = settings.FirstOrDefault(e => e.Name == name);
             if (existingEntry != null)
             {
-                existingEntry.Value = entry.Value;
+                settings.Remove(existingEntry);
             }
-            else
-            {
-                entry.Name = name;
-                settings.Add(entry);
-                settings.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
-            }
+
+            entry.Name = name;
+            settings.Add(entry);
+            settings.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
 
             SettingsStore.Instance.Save(settings);
         }

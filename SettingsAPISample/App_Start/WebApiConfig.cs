@@ -25,8 +25,8 @@ namespace SettingsAPISample
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "{controller}/{name}",
+                defaults: new { name = RouteParameter.Optional }
             );
         }
     }

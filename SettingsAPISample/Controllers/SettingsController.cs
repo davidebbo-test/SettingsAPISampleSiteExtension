@@ -13,52 +13,16 @@ namespace SettingsAPISample.Controllers
 {
     public class SettingsController : ApiController
     {
-        internal List<SettingEntry> ReadSettings()
-        {
-            string file = GetSettingsFilePath();
-            if (File.Exists(file))
-            {
-                return JsonConvert.DeserializeObject<List<SettingEntry>>(File.ReadAllText(file));
-            }
-            else
-            {
-                return new List<SettingEntry>();
-            }
-        }
-
-        internal void SaveSettings(List<SettingEntry> settings)
-        {
-            string file = GetSettingsFilePath();
-            File.WriteAllText(file, JsonConvert.SerializeObject(settings));
-        }
-
-        string GetSettingsFilePath()
-        {
-            string folder = HostingEnvironment.MapPath("~/App_Data");
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
-            return Path.Combine(folder, "settings.json");
-        }
-
         // GET settings
         public List<SettingEntry> Get()
         {
-            string qqq = "{ Name:'foo', Value:'Some value' }";
-            var q = JsonConvert.DeserializeObject<SettingEntry>(qqq);
-            Console.WriteLine(q);
-
-
-
-            return ReadSettings();
+            return SettingsStore.Instance.Load();
         }
 
         // GET settings/foo
         public SettingEntry Get(string name)
         {
-            var settings = ReadSettings();
+            var settings = SettingsStore.Instance.Load();
 
             SettingEntry entry = settings.FirstOrDefault(e => e.Name == name);
             if (entry == null)
@@ -78,7 +42,7 @@ namespace SettingsAPISample.Controllers
         // PUT settings/foo
         public void Put(string name, [FromBody]SettingEntry entry)
         {
-            var settings = ReadSettings();
+            var settings = SettingsStore.Instance.Load();
             SettingEntry existingEntry = settings.FirstOrDefault(e => e.Name == name);
             if (existingEntry != null)
             {
@@ -91,13 +55,13 @@ namespace SettingsAPISample.Controllers
                 settings.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
             }
 
-            SaveSettings(settings);
+            SettingsStore.Instance.Save(settings);
         }
 
         // DELETE settings/foo
         public void Delete(string name)
         {
-            var settings = ReadSettings();
+            var settings = SettingsStore.Instance.Load();
 
             SettingEntry entry = settings.FirstOrDefault(e => e.Name == name);
 
@@ -105,7 +69,7 @@ namespace SettingsAPISample.Controllers
             {
                 settings.Remove(entry);
 
-                SaveSettings(settings);
+                SettingsStore.Instance.Save(settings);
             }
         }
     }

@@ -28,6 +28,9 @@ namespace SettingsAPISample
                 routeTemplate: "{controller}/{name}",
                 defaults: new { name = RouteParameter.Optional }
             );
+
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

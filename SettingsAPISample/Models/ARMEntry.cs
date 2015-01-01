@@ -8,11 +8,11 @@ using System.Web;
 namespace SettingsAPISample.Models
 {
     // An Azure Resource Manager object with standard envelope fields
-    public class ARMEntry
+    public class ARMEntry<T> where T: INamedObject
     {
-        public static ARMEntry Create(INamedObject o, HttpRequestMessage request, bool isChild = false)
+        public static ARMEntry<T> Create(T o, HttpRequestMessage request, bool isChild = false)
         {
-            var armEntry = new ARMEntry() { Properties = o };
+            var armEntry = new ARMEntry<T>() { Properties = o };
 
             // In Azure ARM requests, the referrer is the current id
             Uri referrer = request.Headers.Referrer;
@@ -28,7 +28,9 @@ namespace SettingsAPISample.Models
             // If we're generating a child object, append the child name
             if (isChild)
             {
-                armEntry.Id = armEntry.Id + "/" + o.Name;
+                if (!armEntry.Id.EndsWith("/")) armEntry.Id+='/';
+
+                armEntry.Id += o.Name;
             }
 
             // The Type and Name properties use alternating token starting with 'Microsoft.Web/sites'
@@ -53,12 +55,16 @@ namespace SettingsAPISample.Models
                 }
             }
 
-            armEntry.Location = request.Headers.GetValues("x-ms-geo-location").FirstOrDefault();
+            IEnumerable<string> values;
+            if (request.Headers.TryGetValues("x-ms-geo-location", out values))
+            {
+                armEntry.Location = values.FirstOrDefault();
+            }
 
             return armEntry;
         }
 
-        public static IEnumerable<ARMEntry> CreateList(IEnumerable<INamedObject> objects, HttpRequestMessage request)
+        public static IEnumerable<ARMEntry<T>> CreateList(IEnumerable<T> objects, HttpRequestMessage request)
         {
             foreach (var entry in objects)
             {
@@ -70,6 +76,6 @@ namespace SettingsAPISample.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string Location { get; set; }
-        public dynamic Properties { get; set; }
+        public T Properties { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace SettingsAPISample.Controllers
     public class SettingsController : ApiController
     {
         // GET settings
-        public IEnumerable<ARMEntry> Get()
+        public IEnumerable<ARMEntry<SettingEntry>> Get()
         {
-            return ARMEntry.CreateList(SettingsStore.Instance.Load(), Request);
+            return ARMEntry<SettingEntry>.CreateList(SettingsStore.Instance.Load(), Request);
         }
 
         // GET settings/foo
-        public ARMEntry Get(string name)
+        public ARMEntry<SettingEntry> Get(string name)
         {
             var settings = SettingsStore.Instance.Load();
 
@@ -36,11 +36,11 @@ namespace SettingsAPISample.Controllers
                 throw new HttpResponseException(resp);
             }
 
-            return ARMEntry.Create(entry, Request);
+            return ARMEntry<SettingEntry>.Create(entry, Request);
         }
 
         // PUT settings/foo
-        public void Put(string name, [FromBody]ARMEntry armEntry)
+        public ARMEntry<SettingEntry> Put(string name, [FromBody]ARMEntry<SettingEntry> armEntry)
         {
             var settings = SettingsStore.Instance.Load();
             SettingEntry existingEntry = settings.FirstOrDefault(e => e.Name == name);
@@ -50,10 +50,13 @@ namespace SettingsAPISample.Controllers
             }
 
             armEntry.Properties.Name = name;
-            //settings.Add(armEntry.Properties);
+            settings.Add(armEntry.Properties);
             settings.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
 
             SettingsStore.Instance.Save(settings);
+
+            // Return the newly created entry
+            return ARMEntry<SettingEntry>.Create(armEntry.Properties, Request);
         }
 
         // DELETE settings/foo

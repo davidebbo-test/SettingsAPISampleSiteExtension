@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace SettingsAPISample.Models
 {
-    public class SettingEntry
+    public class SettingEntry : INamedObject
     {
         public string Name { get; set; }
         public string Value { get; set; }

@@ -7,7 +7,7 @@ curl %BASEURI%/settings
 
 curl %BASEURI%/settings/foo
 
-curl -X PUT -H "Content-Type: application/json" --data "{ value:'Some value'  }" %BASEURI%/settings/foo
+curl -X PUT -H "Content-Type: application/json" --data "{ properties: { value: 'Some value', count: 5 }  }" %BASEURI%/settings/foo
 
 curl -X DELETE %BASEURI%/settings/foo
 ```

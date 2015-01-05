@@ -12,18 +12,9 @@ namespace SettingsAPISample.Models
         {
             return new ARMListEntry<T>
             {
-                Value = CreateList(objects, request)
+                Value = objects.Select(entry => ARMEntry<T>.Create(entry, request, isChild: true))
             };
         }
-
-        private static IEnumerable<ARMEntry<T>> CreateList(IEnumerable<T> objects, HttpRequestMessage request)
-        {
-            foreach (var entry in objects)
-            {
-                yield return ARMEntry<T>.Create(entry, request, isChild: true);
-            }
-        }
-
         public IEnumerable<ARMEntry<T>> Value { get; set; }
     }
 }

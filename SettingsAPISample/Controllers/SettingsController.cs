@@ -14,9 +14,9 @@ namespace SettingsAPISample.Controllers
     public class SettingsController : ApiController
     {
         // GET settings
-        public IEnumerable<ARMEntry<SettingEntry>> Get()
+        public ARMListEntry<SettingEntry> Get()
         {
-            return ARMEntry<SettingEntry>.CreateList(SettingsStore.Instance.Load(), Request);
+            return ARMListEntry<SettingEntry>.Create(SettingsStore.Instance.Load(), Request);
         }
 
         // GET settings/foo

@@ -2,8 +2,8 @@
 <package >
   <metadata>
     <id>SettingsAPISample</id>
-    <title>A sample site extension that implements a WebAPI</title>
-    <version>0.5.1</version>
+    <title>WebAPI settings API (sample)</title>
+    <version>0.5.2</version>
     <authors>David Ebbo</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <projectUrl>https://github.com/davidebbo-test/WebAPIFoo</projectUrl>

@@ -64,14 +64,6 @@ namespace SettingsAPISample.Models
             return armEntry;
         }
 
-        public static IEnumerable<ARMEntry<T>> CreateList(IEnumerable<T> objects, HttpRequestMessage request)
-        {
-            foreach (var entry in objects)
-            {
-                yield return Create(entry, request, isChild: true);
-            }
-        }
-
         public string Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

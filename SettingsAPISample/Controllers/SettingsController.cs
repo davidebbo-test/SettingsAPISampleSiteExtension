@@ -42,6 +42,8 @@ namespace SettingsAPISample.Controllers
         // PUT settings/foo
         public ARMEntry<SettingEntry> Put(string name, [FromBody]ARMEntry<SettingEntry> armEntry)
         {
+            if (armEntry == null) throw new ArgumentException();
+
             var settings = SettingsStore.Instance.Load();
             SettingEntry existingEntry = settings.FirstOrDefault(e => e.Name == name);
             if (existingEntry != null)
@@ -49,14 +51,16 @@ namespace SettingsAPISample.Controllers
                 settings.Remove(existingEntry);
             }
 
-            armEntry.Properties.Name = name;
-            settings.Add(armEntry.Properties);
+            SettingEntry entry = armEntry.Properties;
+
+            entry.Name = name;
+            settings.Add(entry);
             settings.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
 
             SettingsStore.Instance.Save(settings);
 
             // Return the newly created entry
-            return ARMEntry<SettingEntry>.Create(armEntry.Properties, Request);
+            return ARMEntry<SettingEntry>.Create(entry, Request);
         }
 
         // DELETE settings/foo

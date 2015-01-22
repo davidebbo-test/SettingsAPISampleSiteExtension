@@ -3,10 +3,10 @@
   <metadata>
     <id>SettingsAPISample</id>
     <title>WebAPI settings API (sample)</title>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
     <authors>David Ebbo</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
-    <projectUrl>https://github.com/davidebbo-test/WebAPIFoo</projectUrl>
+    <projectUrl>https://github.com/davidebbo-test/SettingsAPISampleSiteExtension</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A sample site extension that implements a WebAPI</description>
     <tags>WebAPI sample</tags>
